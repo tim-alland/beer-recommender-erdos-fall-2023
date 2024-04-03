@@ -98,7 +98,8 @@ def on_beer_select(selected_brewery, selected_beer):
     s = "Selected Combinations:" + str(
         st.session_state.selected_combinations
     )  # + '\n' + "Selected Beer IDs:" + str(selected_beer_ids)
-    container.table(pd.DataFrame(st.session_state.selected_combinations, columns=['Brewery','Beer']))
+    st.session_state.chosen_beers_df = pd.DataFrame(st.session_state.selected_combinations, columns=['Brewery','Beer'])
+    container.table(st.session_state.chosen_beers_df)
 
 
 # filters which beers are shown based on what is written in the textbox
@@ -167,7 +168,11 @@ beer_name = st.selectbox("Beers:", beer_filtered)
 add_beer = st.button("Add Beer", on_click = lambda: on_beer_select(brewery_name, beer_name))
 
 container = st.container()
-container.write("List of beers you like:")
+if not add_beer and 'chosen_beers_df' in st.session_state:
+    container.write("List of beers you like:")
+    container.table(st.session_state.chosen_beers_df)
+    
+
 
 
 num_recs = st.slider("How many recommendations do you want?",
@@ -181,4 +186,3 @@ get_recs = st.button("Get Recommendations!", on_click=get_beer_recs)
 recs_container = st.container()
 recs_container.write(" ")
 
-st.write("Credits")
