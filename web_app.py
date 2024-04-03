@@ -168,6 +168,7 @@ beer_name = st.selectbox("Beers:", beer_filtered)
 add_beer = st.button("Add Beer", on_click = lambda: on_beer_select(brewery_name, beer_name))
 
 container = st.container()
+container.write(" ")
 if not add_beer and 'chosen_beers_df' in st.session_state:
     container.write("List of beers you like:")
     container.table(st.session_state.chosen_beers_df)
