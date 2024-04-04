@@ -11,11 +11,9 @@ import process as p
 from lfm_resizable import LightFMResizable
 
 ###################################################################
-############## Initializing data and variables ####################
+############## Cleaning data and instantiating variables ##########
 
 if 'selected_combinations' not in st.session_state:
-    st.session_state.selected_combinations = []
-    st.session_state.selected_beer_ids = []
 
     OPTIMAL_MATRIX = {"method": "zero_one", "threshold": 2.5}
 
@@ -46,8 +44,6 @@ if 'selected_combinations' not in st.session_state:
     ]  # and then reorder the columns to prioritize the most important info
     beers = beers.drop_duplicates()  # and then eliminate duplicates
 
-    
-
     # load the model and build the interaction matrix
     model = joblib.load(
         "final-model.joblib"
@@ -60,6 +56,8 @@ if 'selected_combinations' not in st.session_state:
     st.session_state.beers = beers
     st.session_state.matrix = matrix
     st.session_state.model = model
+    st.session_state.selected_combinations = []
+    st.session_state.selected_beer_ids = []
 
 ####################################################################
 ########################  Helper methods ###########################
@@ -141,7 +139,7 @@ def get_beer_recs():
     ind = np.argpartition(preds, -num_recs)[-num_recs:]
     recs = st.session_state.beers.loc[st.session_state.beers.beer_id.isin(ind), ["brewery_name", "beer_name"]]
     with recs_container:
-        st.write("Here are your personalized recommendations!")
+        st.write("Here are your personalized recommendations! :tada:")
         st.dataframe(recs, hide_index=True) 
 
 #####################################################################
@@ -149,11 +147,9 @@ def get_beer_recs():
 
 st.title("Beer Recommender")
 instructions = "Instructions:\n1. Find the brewery of the beer you have in mind by typing in all or part of the brewery's name in the first box and then select the desired brewery from the dropdown menu. \n2. Type in all of part of the beer name you have in mind and select the desired beer using the dropdown menu for the second box. \n3. Repeat steps 1 and 2 as many times as desired -- we recommend adding at least 5 beers that you like. The more beers you list, the better your recommendations will be. \n4. Click 'Get Beer Recommendations' to get your personalized beer recommendations!"
-overview = "This project was done as part of the [Fall 2023 Erdös Institute Data Science Bootcamp](https://www.erdosinstitute.org/) and uses the following BeerAdvocate [data set](https://data.world/socialmediadata/beeradvocate). To learn more about the project visit the [github repository](https://github.com/b-butler/beer-recommender-erdos-fall-2023)."
+overview = "This project was done as part of the [Fall 2023 Erdös Institute Data Science Bootcamp](https://www.erdosinstitute.org/project-database/fall-2023/data-science-boot-camp/brewsavvy) and uses the following BeerAdvocate [data set](https://data.world/socialmediadata/beeradvocate). To learn more about the project visit the [github repository](https://github.com/b-butler/beer-recommender-erdos-fall-2023)."
 st.write(overview)
 st.write(instructions)
-
-
 
 # Input control for filtering by partial name
 brewery_text = st.text_input("Filter by Name:", "")
