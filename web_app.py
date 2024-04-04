@@ -146,20 +146,21 @@ def get_beer_recs():
 ####################  Designing the app #############################
 
 st.title("Beer Recommender")
-instructions = "Instructions:\n1. Find the brewery of the beer you have in mind by typing in all or part of the brewery's name in the first box and then select the desired brewery from the dropdown menu. \n2. Type in all of part of the beer name you have in mind and select the desired beer using the associated dropdown menu. \n3. Click the Add Beer button to add this to your list of liked beers.\n4. Repeat steps 1-3 as many times as desired -- we recommend adding at least 5 beers that you like. The more beers you list, the better your recommendations will be. \n5. Click 'Get Beer Recommendations' to get your personalized beer recommendations!"
+#instructions = "Instructions:\n1. Find the brewery of the beer you have in mind by typing in all or part of the brewery's name in the first box and then select the desired brewery from the dropdown menu. \n2. Type in all of part of the beer name you have in mind and select the desired beer using the associated dropdown menu. \n3. Click the Add Beer button to add this to your list of liked beers.\n4. Repeat steps 1-3 as many times as desired -- we recommend adding at least 5 beers that you like. The more beers you list, the better your recommendations will be. \n5. Click 'Get Beer Recommendations' to get your personalized beer recommendations!"
+instructions = "Use the boxes below to enter beers that you like. This is done by first selecting a brewery and then selecting one of the beers they make. We recommend adding at least 5 beers -- the more you add, the better your recommendations will be. When you're done adding all the beers you want, you can choose how many recommendations you want and click \"Get recommendations!\""
 overview = "This project was done as part of the [Fall 2023 Erdös Institute Data Science Bootcamp](https://www.erdosinstitute.org/project-database/fall-2023/data-science-boot-camp/brewsavvy) and uses the following BeerAdvocate [data set](https://data.world/socialmediadata/beeradvocate). To learn more about the project visit the [github repository](https://github.com/b-butler/beer-recommender-erdos-fall-2023)."
 st.write(overview)
 st.write(instructions)
 
 # Input control for filtering by partial name
-brewery_text = st.text_input("Filter by Name:", "")
+brewery_text = st.text_input("Enter all or part of the name of the brewery for the beer you'd like to add", "")
 
 brewery_filtered = on_brewery_search(brewery_text)
-brewery_name = st.selectbox("Breweries:", brewery_filtered)
+brewery_name = st.selectbox("Select the brewery from the drop down menu", brewery_filtered)
 
-beer_text = st.text_input("What's the name of the beer you'd like to add?")
+beer_text = st.text_input("Enter all or part of the beer name to filter results")
 beer_filtered = on_beer_search(brewery_name, beer_text)
-beer_name = st.selectbox("Beers:", beer_filtered)
+beer_name = st.selectbox("Select the beer you have in mind from the drop down menu", beer_filtered)
 
 add_beer = st.button("Add Beer", on_click = lambda: on_beer_select(brewery_name, beer_name))
 
