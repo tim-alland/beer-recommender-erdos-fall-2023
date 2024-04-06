@@ -138,7 +138,7 @@ def get_beer_recs():
     num_recs = st.session_state.slider
     ind = np.argpartition(preds, -num_recs)[-num_recs:]
     recs = st.session_state.beers.loc[st.session_state.beers.beer_id.isin(ind), ["brewery_name", "beer_name"]]
-    recs.rename(columns={'brewery_name':'Brewery','beer_name':'Beer'})
+    recs.rename(columns={'brewery_name':'Brewery','beer_name':'Beer'}, inplace=True)
     with recs_container:
         st.write("Here are your personalized recommendations! :tada:")
         st.dataframe(recs, hide_index=True) 
