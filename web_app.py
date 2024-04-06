@@ -8,7 +8,7 @@ import joblib
 
 import clean
 import process as p
-from lfm_resizable import LightFMResizable
+#from lfm_resizable import LightFMResizable
 
 ###################################################################
 ############## Cleaning data and instantiating variables ##########
